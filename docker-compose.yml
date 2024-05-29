@@ -1,7 +1,7 @@
 version: '3.1'
 services:
   stats-server:
-    build: /ewm-stats/service/
+    build: ewm-stats/service/
     image: stats-server
     volumes:
       - /etc/timezone:/etc/timezone:ro
@@ -32,7 +32,7 @@ services:
       - POSTGRES_PASSWORD=test
 
   ewm-service:
-    build: /ewm-service/
+    build: ewm-service/
     image: ewm-service
     volumes:
       - /etc/timezone:/etc/timezone:ro
