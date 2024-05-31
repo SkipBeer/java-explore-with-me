@@ -8,7 +8,12 @@ import ru.practicum.dto.HitMapper;
 import ru.practicum.errors.exceptions.IncorrectDateException;
 import ru.practicum.repository.StatsRepository;
 
+import java.sql.Array;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -24,6 +29,17 @@ public class StatsService {
 
     public List<HitDto> getStats(LocalDateTime start, LocalDateTime end, List<String> uris, boolean unique) {
         validate(start, end);
+        if (!uris.isEmpty()) {
+            List<HitDto> result = new ArrayList<>();
+            for (String uri : uris) {
+                List<HitDto> dtos = repository.findByUri(start, end, uri);
+                if (!dtos.isEmpty()) {
+                    HitDto dto = dtos.get(0);
+                    result.add(dto);
+                }
+            }
+            return  result;
+        }
         if (!unique) {
             return repository.findAllInInterval(start, end);
         }
