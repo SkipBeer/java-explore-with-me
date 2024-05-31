@@ -6,7 +6,6 @@ import org.springframework.stereotype.Repository;
 import ru.practicum.dto.Hit;
 import ru.practicum.dto.HitDto;
 
-import java.sql.Array;
 import java.time.LocalDateTime;
 import java.util.List;
 

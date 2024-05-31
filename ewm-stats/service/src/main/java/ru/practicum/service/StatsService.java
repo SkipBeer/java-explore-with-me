@@ -8,10 +8,6 @@ import ru.practicum.dto.HitMapper;
 import ru.practicum.errors.exceptions.IncorrectDateException;
 import ru.practicum.repository.StatsRepository;
 
-import java.sql.Array;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
