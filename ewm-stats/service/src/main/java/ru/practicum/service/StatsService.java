@@ -10,7 +10,9 @@ import ru.practicum.repository.StatsRepository;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -25,16 +27,21 @@ public class StatsService {
 
     public List<HitDto> getStats(LocalDateTime start, LocalDateTime end, List<String> uris, boolean unique) {
         validate(start, end);
-        if (!uris.isEmpty()) {
+        if (uris != null && !uris.isEmpty()) {
             List<HitDto> result = new ArrayList<>();
             for (String uri : uris) {
-                List<HitDto> dtos = repository.findByUri(start, end, uri);
+                List<HitDto> dtos;
+                if (!unique) {
+                    dtos = repository.findByUri(start, end, uri);
+                } else {
+                    dtos = repository.findByUriUnique(start, end, uri);
+                }
                 if (!dtos.isEmpty()) {
                     HitDto dto = dtos.get(0);
                     result.add(dto);
                 }
             }
-            return  result;
+            return  result.stream().sorted(Comparator.comparing(HitDto::getHits).reversed()).collect(Collectors.toList());
         }
         if (!unique) {
             return repository.findAllInInterval(start, end);
